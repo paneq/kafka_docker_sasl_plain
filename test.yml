@@ -15,7 +15,6 @@ services:
       - ./zk-single-kafka-single/zoo1/datalog:/datalog
 
   kafka1:
-    command: "/etc/confluent/docker/no_check_run"
     image: confluentinc/cp-kafka:5.1.2
     hostname: kafka1
     ports:
@@ -34,9 +33,9 @@ services:
       KAFKA_AUTHORIZER_CLASS_NAME: "kafka.security.auth.SimpleAclAuthorizer"
       KAFKA_SUPER_USERS: "User:admin;User:ANONYMOUS"
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      ZOOKEEPER_SASL_ENABLED: "false"
     volumes:
       - ./zk-single-kafka-single/kafka1/data:/var/lib/kafka/data
       - ./kafka_server_jaas.conf:/etc/kafka/kafka_server_jaas.conf
-      - ./no_check_run:/etc/confluent/docker/no_check_run
     depends_on:
       - zoo1
